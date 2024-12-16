@@ -39,8 +39,7 @@ pause >nul
 if not exist ffmpeg.exe (
     echo [INFO] Dependence ffmpeg.exe not found
     echo  start download
-    echo.
-    pause >nul
+    echo. 
     mkdir !temp_folder! >nul 2>nul
     title Downloading ffmpeg.exe ^| Audio and Video Merger  
     echo [INFO] Downloading ffmpeg.exe
