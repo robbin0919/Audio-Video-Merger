@@ -78,3 +78,24 @@ if not exist ffmpeg.exe (
     echo [INFO] Dependence ffmpeg %extracted_text% >> log.log
     echo.
 )
+del log.log >nul 2>nul
+del error.log >nul 2>nul
+set num=0
+set snum=0
+mkdir %temp_folder% >nul 2>nul
+mkdir %output_folder% >nul 2>nul
+
+for %%i in ("%input_folder%\*.mp4") do (
+    set "file_name=%%~ni"
+    set /a "num+=1"
+    
+    if exist "%input_folder%\!file_name!.m4a" (
+         if not exist "%output_folder%\!file_name!.mp4" (
+         )
+    )
+
+
+)
+
+
+ 
