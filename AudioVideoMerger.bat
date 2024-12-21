@@ -121,10 +121,19 @@ for %%i in ("%input_folder%\*.mp4") do (
             echo [ERROR] The file !file_name!.mp4 already exists in output folder, please check the file name >> error.log
 
          )
+           ) else (
+        echo [ERROR] No m4a file matching %%i was found, please check the file name
+        echo [ERROR] No m4a file matching %%i was found, please check the file name >> error.log
     )
-
-
 )
 
+title Task completed ^| Audio and Video Merger 
+echo.
+echo [INFO] All files have been processed, total: !num! files, Succeeded: !snum! files
+powershell -Command "& { [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] > $null; $template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText02); $xml = New-Object Windows.Data.Xml.Dom.XmlDocument; $xml.LoadXml($template.GetXml()); $toastElements = $xml.GetElementsByTagName('text'); if ($toastElements.Count -ge 2) { $titleNode = $xml.CreateTextNode('All files have been processed'); $toastElements.Item(0).AppendChild($titleNode) > $null; $contentNode = $xml.CreateTextNode('Total: !num! files, Succeeded: !snum! files'); $toastElements.Item(1).AppendChild($contentNode) > $null; $toast = [Windows.UI.Notifications.ToastNotification]::new($xml); $notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('Audio and Video Merger by @RobbinLee'); $notifier.Show($toast); } else { Write-Host 'Unable to create toast notification.' } }"  >nul 2>nul
+echo [INFO] press any key to exit
+pause >nul
+
+endlocal
 
  
