@@ -91,6 +91,35 @@ for %%i in ("%input_folder%\*.mp4") do (
     
     if exist "%input_folder%\!file_name!.m4a" (
          if not exist "%output_folder%\!file_name!.mp4" (
+              for %%a in ("%%i") do (
+                set "mp4_size=%%~za"
+            )
+            for %%b in ("%input_folder%\!file_name!.m4a") do (
+                set "m4a_size=%%~zb"
+            )
+
+            set /a "total_size=!mp4_size!+!m4a_size!"
+
+            title Processing: !file_name! Size: !total_size! bytes ^| Audio and Video Merger
+            echo.
+            echo [INFO] Processing: !file_name! Size: !total_size! bytes
+            echo [INFO] Processing: !file_name! Size: !total_size! bytes >> log.log
+            ffmpeg -i "%%i" -i "%input_folder%\!file_name!.m4a" -c:v copy -c:a aac -strict experimental "%output_folder%\Merger_!file_name!.mp4" >nul 2>nul
+            
+            for %%o in ("%output_folder%\!file_name!.mp4") do (
+                set "output_size=%%~zo"
+            )
+            echo [INFO] !file_name! merge completed
+            echo [INFO] Output filename: Merger_!file_name!.mp4, Size: !total_size!^-^>!output_size! bytes
+            echo [INFO] MP4 Size: !mp4_size! bytes, M4A Size: !m4a_size! bytes, Output filename: Merger_!file_name!.mp4, Size: !total_size!^-^>!output_size! bytes 
+            echo [INFO] MP4 Size: !mp4_size! bytes, M4A Size: !m4a_size! bytes, Output filename: Merger_!file_name!.mp4, Size: !total_size!^-^>!output_size! bytes >> log.log
+            echo.
+            
+            set /a "snum+=1"
+        ) else (
+            echo [ERROR] The file !file_name!.mp4 already exists in output folder, please check the file name
+            echo [ERROR] The file !file_name!.mp4 already exists in output folder, please check the file name >> error.log
+
          )
     )
 
